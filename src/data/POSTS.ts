@@ -1,12 +1,6 @@
-export interface Post {
-  id: number;
-  title: string;
-  source: string;
-  price: number;
-  description: string;
-}
+import {Post} from '../types/types';
 
-const POSTS: Post[] = [
+const POSTS: Array<Post> = [
   {
     id: 1,
     source:

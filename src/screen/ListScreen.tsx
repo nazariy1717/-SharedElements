@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {
   View,
   SafeAreaView,
@@ -12,14 +12,14 @@ import {
 import {SharedElement} from 'react-navigation-shared-element';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-import {RootStackParamList} from '../../App';
-import POSTS, {Post} from '../data/POSTS';
+import POSTS from '../data/POSTS';
+import {Post, RootStackParamList} from '../types/types';
 
-type Props = NativeStackScreenProps<RootStackParamList>;
+type ListProps = NativeStackScreenProps<RootStackParamList, 'List'>;
 
 const SPACING = 15;
 const POST_GUTTER_WIDTH = 2;
-const Listscreen = ({navigation}: Props) => {
+const Listscreen = ({navigation}: ListProps) => {
   const dimensions = useWindowDimensions();
   const imageWidth = dimensions.width / 2 - POST_GUTTER_WIDTH;
 
@@ -32,7 +32,7 @@ const Listscreen = ({navigation}: Props) => {
           {POSTS.map((post: Post, index) => (
             <Pressable
               key={post.id}
-              onPress={() => navigation.push('Detail', {post})}
+              onPress={() => navigation.navigate('Detail', {post})}
               style={{
                 width: imageWidth,
               }}>

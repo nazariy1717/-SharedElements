@@ -5,34 +5,34 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createSharedElementStackNavigator} from 'react-navigation-shared-element';
 import ListScreen from './src/screen/ListScreen';
 import DetailScreen from './src/screen/DetailScreen';
-
-export type RootStackParamList = {
-  List: undefined;
-  Detail: any;
-};
+import {RootStackParamList} from './src/types/types';
 
 const Stack = createSharedElementStackNavigator<RootStackParamList>();
 
-const MainScreen = () => (
-  <Stack.Navigator initialRouteName="List" screenOptions={{headerShown: false}}>
-    <Stack.Screen name="List" component={ListScreen} />
-      <Stack.Screen
-        name="Detail"
-        component={DetailScreen}
-        sharedElements={route => {
-          const {post} = route.params;
-          return [`post.${post.id}.photo`];
-        }}
-      />
-
-  </Stack.Navigator>
-);
+const routes: Array<React.ComponentProps<typeof Stack.Screen>> = [
+  {
+    name: 'List',
+    component: ListScreen,
+  },
+  {
+    name: 'Detail',
+    component: DetailScreen,
+    sharedElements: route => {
+      const {post} = route.params;
+      return [`post.${post.id}.photo`];
+    },
+  },
+];
 
 function App(): JSX.Element {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <MainScreen />
+        <Stack.Navigator>
+          {routes.map(routeConfig => (
+            <Stack.Screen key={routeConfig.name} {...routeConfig} />
+          ))}
+        </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
   );
